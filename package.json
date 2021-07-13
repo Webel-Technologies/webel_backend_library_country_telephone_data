@@ -5,7 +5,7 @@
   "main": "country_telephone_data.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mukeshsoni/country-telephone-data.git"
+    "url": "git+https://github.com/webel-technologies/country-telephone-data.git"
   },
   "keywords": [
     "country",
@@ -17,10 +17,13 @@
   "author": "Mukesh Soni <mukeshsoni@gmail.com> (http://unstack.in/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mukeshsoni/country-telephone-data/issues"
+    "url": "https://github.com/webel-technologies/country-telephone-data/issues"
   },
-  "homepage": "https://github.com/mukeshsoni/country-telephone-data#readme",
+  "homepage": "https://github.com/webel-technologies/country-telephone-data#readme",
   "scripts": {
     "test": "exit 0"
+  },
+  "publishConfig": {
+    "@webel-technologies:registry": "https://npm.pkg.github.com"
   }
 }
