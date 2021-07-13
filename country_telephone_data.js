@@ -327,11 +327,11 @@ var allCountries = [
     ["Yemen (‫اليمن‬‎)", "ye", "967", "+...-.-...-..."],
     ["Zambia", "zm", "260", "+...-..-...-...."],
     ["Zimbabwe", "zw", "263", "+...-.-......"],
-];
+]
 
 // we will build this in the loop below
-var allCountryCodes = {};
-var iso2Lookup = {};
+var allCountryCodes = {}
+var iso2Lookup = {}
 var addCountryCode = function (iso2, dialCode, priority) {
     if (!(dialCode in allCountryCodes)) {
         allCountryCodes[dialCode] = [];
@@ -364,15 +364,14 @@ for (var index = 0; index < allCountries.length; index++) {
             addCountryCode(country[1], dialCode)
         }
     }
-    console.info(iso2Lookup)
-    iso2Lookup[allCountries[index].iso2] = country;
+    iso2Lookup[allCountries[index].iso2] = allCountries[index]
 
     // dial codes
-    addCountryCode(country[1], country[2], country[4]);
+    addCountryCode(country[1], country[2], country[4])
 }
 
 module.exports = {
     allCountries: allCountries,
     iso2Lookup: iso2Lookup,
     allCountryCodes: allCountryCodes,
-};
+}
