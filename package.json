@@ -1,11 +1,11 @@
 {
-  "name": "country-telephone-data",
-  "version": "0.6.3",
+  "name": "@webel-technologies/country-telephone-data",
+  "version": "0.7.0",
   "description": "Has country codes for all countries in the world. Please send a PR if you see something missing or find a mistake.",
   "main": "country_telephone_data.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mukeshsoni/country-telephone-data"
+    "url": "git+https://github.com/mukeshsoni/country-telephone-data.git"
   },
   "keywords": [
     "country",
@@ -15,5 +15,12 @@
     "code"
   ],
   "author": "Mukesh Soni <mukeshsoni@gmail.com> (http://unstack.in/)",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mukeshsoni/country-telephone-data/issues"
+  },
+  "homepage": "https://github.com/mukeshsoni/country-telephone-data#readme",
+  "scripts": {
+    "test": "exit 0"
+  }
 }
