@@ -2,6 +2,9 @@
 
 const KYCType = require("./enums/kycType");
 
+const fs = require("fs");
+const path = require("path");
+
 var allCountries = [
   ["Afghanistan (‫افغانستان‬‎)", "af", "93", KYCType.Generic, "+..-..-...-...."],
   ["Åland Islands", "ax", "358", KYCType.Generic, ""],
@@ -305,6 +308,8 @@ var allCountries = [
   ["Zimbabwe", "zw", "263", KYCType.Generic, "+...-.-......"],
 ];
 
+const DEFAULT_LANGUAGE = "en";
+
 // we will build this in the loop below
 var allCountryCodes = {};
 var iso2Lookup = {};
@@ -345,8 +350,34 @@ for (var index = 0; index < allCountries.length; index++) {
   addCountryCode(country[1], country[2], country[5]);
 }
 
+/**
+ * Retrieve country translated name using isoCode
+ * @param {String} isoCode Country IsoCode
+ * @param {String} language User Language
+ * @returns {String}
+ */
+const retrieveCountryName = (isoCode, language = DEFAULT_LANGUAGE) => {
+  let file;
+  try {
+    /** Path is taken from serverless api file */
+    file = fs.readFileSync(`./locales/${language}.json`);
+
+    file = JSON.parse(file);
+  } catch (err) {
+    console.error("[retrieveCountryName/retrieveFile]", err.toString ? err.toString() : err);
+    language = DEFAULT_LANGUAGE;
+
+    file = fs.readFileSync(`./locales/${language}.json`);
+
+    file = JSON.parse(file);
+  }
+
+  return file.COUNTRY_NAMES[`${isoCode.toLowerCase()}`];
+};
+
 module.exports = {
   allCountries: allCountries,
   iso2Lookup: iso2Lookup,
   allCountryCodes: allCountryCodes,
+  retrieveCountryName: retrieveCountryName,
 };
