@@ -1,0 +1,15 @@
+{
+  "readKey": "read-key",
+  "writeKey": "write-key",
+
+  "upload": {
+    "type": "json",
+    "files": "locales/en.json",
+    "deprecate": "project",
+    "importAsNew": true
+  },
+
+  "download": {
+    "files": "locales/${lang}.json"
+  }
+}

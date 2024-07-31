@@ -1,0 +1,106 @@
+name: Download from Localazy
+on:
+  repository_dispatch:
+    types: [upload-localazy-strings]
+  workflow_dispatch:
+
+jobs:
+  localazy-download:
+    name: Download strings from Localazy
+    runs-on: ubuntu-latest
+    concurrency: ${{ github.workflow }}
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Set branch name
+        run: |
+          BRANCH_NAME="translate/${{ github.event.client_payload.branch_name }}"
+          echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
+
+      - name: Create and checkout new branch
+        run: |
+          git checkout -b $BRANCH_NAME
+
+      - name: Run Localazy download
+        uses: localazy/download@v1
+        with:
+          read_key: ${{ secrets.LOCALAZY_KEY_READ }}
+          write_key: ${{ secrets.LOCALAZY_KEY_WRITE }}
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Added translation ${{ github.event.client_payload.branch_name }}"
+
+      - name: Push new branch
+        run: |
+          git push origin $BRANCH_NAME
+
+      - name: Update version
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout $BRANCH_NAME
+          npm version patch
+          NEW_TAG=$(git describe --tags --abbrev=0)
+          echo "NEW_TAG=${NEW_TAG}" >> $GITHUB_ENV
+          git push origin $BRANCH_NAME
+
+      - name: Merge branch into master
+        run: |
+          git checkout master
+          git pull origin master
+          git merge --no-ff $BRANCH_NAME
+          git push origin master
+
+      - name: Checkout development branch
+        run: |
+          git fetch origin
+          git branch
+          git checkout development
+          git pull origin development
+
+      - name: Merge branch into development
+        run: |
+          git merge --no-ff --allow-unrelated-histories $BRANCH_NAME || true
+
+      - name: Resolve merge conflicts
+        run: |
+          if git ls-files -u | grep -q .; then
+            echo "Resolving merge conflicts..."
+            git checkout --theirs -- .
+            git add .
+            git commit -m "Merge branch '$BRANCH_NAME' into development"
+          else
+            echo "No conflicts to resolve."
+          fi
+      - name: Push branch to development
+        run: |
+          git push origin development
+
+      - name: Tag new version and push tag
+        run: |
+          git checkout master
+          TAG_EXISTS=$(git tag -l "$NEW_TAG")
+          if [ ! -z "$TAG_EXISTS" ]; then
+            git tag -d $NEW_TAG
+            git push origin :refs/tags/$NEW_TAG
+          fi
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
+
+      - name: Delete remote branch
+        run: |
+          git push origin --delete $BRANCH_NAME
+
+      - name: Notify deploy-prod action to upload new version
+        run: |
+          curl -X POST https://api.github.com/repos/Webel-Technologies/webel_backend_library_country_telephone_data/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.DISPATCH_GITHUB_ACTIONS_TOKEN }} \
+          --data '{"event_type": "deploy-prod", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
