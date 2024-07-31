@@ -1,0 +1,21 @@
+name: Upload to Localazy
+on:
+  push:
+    branches:
+      - development
+    paths:
+      - "locales/en.json"
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  localazy-upload:
+    name: Upload strings to Localazy
+    runs-on: ubuntu-latest
+    concurrency: ${{ github.workflow }}
+    steps:
+      - uses: actions/checkout@v1
+      - uses: localazy/upload@v1
+        with:
+          read_key: ${{secrets.LOCALAZY_KEY_READ}}
+          write_key: ${{secrets.LOCALAZY_KEY_WRITE}}
