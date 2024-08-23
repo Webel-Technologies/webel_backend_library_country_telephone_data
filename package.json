@@ -1,6 +1,6 @@
 {
   "name": "@webel-technologies/country-telephone-data",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Has country codes for all countries in the world. Please send a PR if you see something missing or find a mistake.",
   "main": "country_telephone_data.js",
   "repository": {
