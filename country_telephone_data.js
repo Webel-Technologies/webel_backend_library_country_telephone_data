@@ -1,6 +1,7 @@
 "use strict";
 
 const KYCType = require("./enums/kycType");
+const PriorityType = require("./enums/priorityType");
 
 const fs = require("fs");
 const path = require("path");
@@ -118,8 +119,8 @@ var allCountries = [
   ["cz", "420", KYCType.UE, "+...(...)...-..."],
   ["dk", "45", KYCType.UE, "+.. .. .. .. .."],
   ["dj", "253", KYCType.GENERIC, "+...-..-..-..-.."],
-  ["dm", "1767", KYCType.GENERIC, "+.(...)...-...."],
-  ["do", "1", KYCType.GENERIC, "+.(...)...-....", 2, ["809", "829", "849"]],
+  ["dm", "1767", KYCType.GENERIC, , "+.(...)...-...."],
+  ["do", "1", KYCType.GENERIC, "+.(...)...-....", 2, [("809", "829", "849")]],
   ["ec", "593", KYCType.GENERIC, "+...-.-...-...."],
   ["eg", "20", KYCType.GENERIC, "+..(...)...-...."],
   ["sv", "503", KYCType.GENERIC, "+... ....-...."],
@@ -264,7 +265,7 @@ var allCountries = [
   ["gs", "500", KYCType.GENERIC, ""],
   ["kr", "82", KYCType.GENERIC, "+..-..-...-...."],
   ["ss", "211", KYCType.GENERIC, "+...-..-...-...."],
-  ["es", "34", KYCType.UE, "+.. ... ... ..."],
+  ["es", "34", KYCType.UE, "+.. ... ... ...", PriorityType.HIGH],
   ["lk", "94", KYCType.GENERIC, "+..-..-...-...."],
   ["sd", "249", KYCType.GENERIC, "+...-..-...-...."],
   ["sr", "597", KYCType.GENERIC, "+...-...-..."],
@@ -291,7 +292,7 @@ var allCountries = [
   ["ug", "256", KYCType.GENERIC, "+...(...)...-..."],
   ["ua", "380", KYCType.GENERIC, "+...(..)...-..-.."],
   ["ae", "971", KYCType.GENERIC, "+...-.-...-...."],
-  ["gb", "44", KYCType.GENERIC, "+.. .... ......"],
+  ["gb", "44", KYCType.GENERIC, "+.. .... ......", PriorityType.HIGH],
   ["us", "1", KYCType.GENERIC, "+. (...) ...-....", 0],
   ["um", "1", KYCType.GENERIC, "", 2],
   ["uy", "598", KYCType.GENERIC, "+...-.-...-..-.."],
