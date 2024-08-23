@@ -5,6 +5,9 @@ on:
     types: [created]
   repository_dispatch:
     types: [deploy-prod]
+  push:
+    tags:
+      - v**
 
 jobs:
   build:
